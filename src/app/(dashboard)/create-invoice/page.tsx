@@ -1,7 +1,7 @@
-import React from "react";
+import CreateInvoiceForm from "./create-invoice-form";
 
 const CreateInvoice = () => {
-  return <div>CreateInvoice</div>;
+  return <CreateInvoiceForm />;
 };
 
 export default CreateInvoice;

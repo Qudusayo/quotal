@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import { Karla } from "next/font/google";
+import { headers } from "next/headers";
 import { NextUIProvider } from "@nextui-org/react";
+import { cookieToInitialState } from "wagmi";
+import { config } from "@/config";
+import Web3ModalProvider from "@/context";
+import "./globals.css";
+import { AppProvider } from "@/context/app-context";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const karla = Karla({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Quotal",
@@ -15,10 +21,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(config, headers().get("cookie"));
+
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <NextUIProvider>{children}</NextUIProvider>
+      <body className={karla.className}>
+        <Web3ModalProvider initialState={initialState}>
+          <NextUIProvider>
+            <AppProvider>{children}</AppProvider>
+            <Toaster />
+          </NextUIProvider>
+        </Web3ModalProvider>
       </body>
     </html>
   );
